@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Slideshow ảnh</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 1000px;
+      margin: auto;
+      overflow: hidden;
+      border: 2px solid #ccc;
+      background-color: #fff;
+    }
+
+    .slider {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .slide-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      width: 200px;
+      flex-shrink: 0;
+      padding: 10px;
+    }
+
+    .slide img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255,255,255,0.8);
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1;
+    }
+
+    .left {
+      left: 0;
+    }
+
+    .right {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Slideshow ảnh hoa và giỏ quà 🎁🌸</h2>
+
+  <div class="slideshow-container">
+    <button class="arrow left" onclick="moveLeft()">&#10094;</button>
+    <div class="slider">
+      <div class="slide-track" id="slideTrack">
+        <div class="slide"><img src="Ima1.jfif" alt="Ảnh 1"></div>
+        <div class="slide"><img src="Ima2.jfif" alt="Ảnh 2"></div>
+        <div class="slide"><img src="Ima3.jfif" alt="Ảnh 3"></div>
+        <div class="slide"><img src="Ima4.jfif" alt="Ảnh 4"></div>
+      </div>
+    </div>
+    <button class="arrow right" onclick="moveRight()">&#10095;</button>
+  </div>
+
+  <script>
+    let currentIndex = 0;
+    const slideTrack = document.getElementById('slideTrack');
+    const totalSlides = document.querySelectorAll('.slide').length;
+    const visibleSlides = 5;
+    const slideWidth = 200;
+
+    function updateSlidePosition() {
+      const offset = currentIndex * slideWidth;
+      slideTrack.style.transform = `translateX(-${offset}px)`;
+    }
+
+    function moveLeft() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateSlidePosition();
+      }
+    }
+
+    function moveRight() {
+      if (currentIndex < totalSlides - visibleSlides) {
+        currentIndex++;
+        updateSlidePosition();
+      }
+    }
+
+    setInterval(() => {
+      if (currentIndex < totalSlides - visibleSlides) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+      updateSlidePosition();
+    }, 3000);
+  </script>
+
+</body>
+</html>
