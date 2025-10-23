@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách công việc</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body { font-family: Arial; background-color: #f0f8ff; padding: 30px; }
+    h2 { color: #333; }
+    #taskInput { width: 300px; padding: 8px; }
+    #addBtn { padding: 8px 12px; margin-left: 5px; }
+    ul { list-style: none; padding: 0; margin-top: 20px; }
+    li { background: #e0f7fa; margin-bottom: 10px; padding: 10px; border-radius: 5px; position: relative; cursor: pointer; }
+    li.completed { text-decoration: line-through; background: #c8e6c9; }
+    .removeBtn {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      background: #ff5252;
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📋 Danh sách công việc</h2>
+  <input type="text" id="taskInput" placeholder="Nhập công việc...">
+  <button id="addBtn">Thêm</button>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    $(document).ready(function() {
+      // Thêm công việc mới
+      $('#addBtn').click(function() {
+        const taskText = $('#taskInput').val().trim();
+        if (taskText === '') {
+          alert('Vui lòng nhập nội dung công việc!');
+          return;
+        }
+
+        const newTask = $('<li></li>').text(taskText);
+        const removeBtn = $('<button class="removeBtn">X</button>');
+
+        newTask.append(removeBtn);
+        $('#taskList').append(newTask);
+        $('#taskInput').val('');
+      });
+
+      // Đánh dấu hoàn thành khi click vào công việc
+      $('#taskList').on('click', 'li', function(e) {
+        if (!$(e.target).hasClass('removeBtn')) {
+          $(this).toggleClass('completed');
+        }
+      });
+
+      // Xóa công việc khi nhấn nút X
+      $('#taskList').on('click', '.removeBtn', function(e) {
+        $(this).parent().remove();
+        e.stopPropagation(); // Ngăn việc đánh dấu hoàn thành khi xóa
+      });
+    });
+  </script>
+
+</body>
+</html>
