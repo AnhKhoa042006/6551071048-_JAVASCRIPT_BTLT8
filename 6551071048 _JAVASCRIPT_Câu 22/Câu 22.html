@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng ký CV</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      background-color: #FFACCA;
+      font-family: Arial;
+      padding: 30px;
+    }
+    h2 {
+      color: #333;
+    }
+    input, select {
+      margin: 5px 0;
+      padding: 8px;
+      width: 300px;
+    }
+    .skill-group {
+      margin-top: 10px;
+    }
+    .skill-group input[type="range"] {
+      width: 300px;
+    }
+    #cvDisplay {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .skill-bar {
+      background: #ddd;
+      border-radius: 5px;
+      margin: 5px 0;
+      position: relative;
+      height: 20px;
+    }
+    .skill-fill {
+      background: #4caf50;
+      height: 100%;
+      border-radius: 5px;
+      text-align: right;
+      padding-right: 5px;
+      color: white;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📄 Đăng ký thông tin CV</h2>
+
+  <form id="cvForm">
+    <input type="text" id="fullName" placeholder="Họ và tên*"><br>
+    <input type="text" id="address" placeholder="Địa chỉ*"><br>
+    <input type="text" id="phone" placeholder="Điện thoại*"><br>
+    <input type="email" id="email" placeholder="Email*"><br>
+    <input type="text" id="job" placeholder="Nghề nghiệp*"><br>
+    <input type="file" id="avatar"><br>
+
+    <div id="skillsContainer">
+      <div class="skill-group">
+        <input type="text" class="skill-name" placeholder="Tên kỹ năng">
+        <input type="range" class="skill-level" min="0" max="100" step="10" value="50">
+      </div>
+    </div>
+    <button type="button" id="addSkill">Thêm kỹ năng</button><br><br>
+    <button type="button" id="submitCV">Đăng ký</button>
+  </form>
+
+  <div id="cvDisplay" style="display:none;">
+    <h3>🎯 Hồ sơ cá nhân</h3>
+    <p><strong>Họ và tên:</strong> <span id="cvName"></span></p>
+    <p><strong>Nghề nghiệp:</strong> <span id="cvJob"></span></p>
+    <p><strong>Địa chỉ:</strong> <span id="cvAddress"></span></p>
+    <p><strong>Email:</strong> <span id="cvEmail"></span></p>
+    <p><strong>Điện thoại:</strong> <span id="cvPhone"></span></p>
+
+    <h4>Kỹ năng</h4>
+    <div id="cvSkills"></div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#addSkill').click(function() {
+        const skillGroup = `
+          <div class="skill-group">
+            <input type="text" class="skill-name" placeholder="Tên kỹ năng">
+            <input type="range" class="skill-level" min="0" max="100" step="10" value="50">
+          </div>`;
+        $('#skillsContainer').append(skillGroup);
+      });
+
+      $('#submitCV').click(function() {
+        // Lấy thông tin cá nhân
+        $('#cvName').text($('#fullName').val());
+        $('#cvJob').text($('#job').val());
+        $('#cvAddress').text($('#address').val());
+        $('#cvEmail').text($('#email').val());
+        $('#cvPhone').text($('#phone').val());
+
+        // Hiển thị kỹ năng
+        $('#cvSkills').empty();
+        $('.skill-group').each(function() {
+          const name = $(this).find('.skill-name').val();
+          const level = $(this).find('.skill-level').val();
+          if (name) {
+            const bar = `
+              <div>
+                <strong>${name}</strong>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width:${level}%;">${level}%</div>
+                </div>
+              </div>`;
+            $('#cvSkills').append(bar);
+          }
+        });
+
+        $('#cvDisplay').show();
+      });
+    });
+  </script>
+
+</body>
+</html>
